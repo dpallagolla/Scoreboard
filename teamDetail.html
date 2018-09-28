@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <!-- [START css] -->
+    <!-- <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css"> -->
+    <!-- <link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- [END css] -->
+    <style type="text/css">
+    .cursorHand tr {
+    cursor: pointer;
+}
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Knowlarity TT/Foosball Leaderboard</a>
+              </div>
+              <ul class="nav navbar-nav">
+                  <li class="active"><a href="/">Home</a></li>
+                  <li><a href="{{ createTeamUrl|safe }}">Create Team</a></li>
+                  <li><a href="{{ recordMatchScoresUrl|safe }}">Record Match Scores</a></li>
+                </ul>
+        </div>
+    </div>
+    <div class="container">
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search">
+     <table id="myTable" class="table table-hover">
+       <thead>
+        <tr>
+          <th>MatchID</th>
+          <th>Team 1</th>
+          <th>Team 2</th>
+          <th>Team 1 score</th>
+          <th>Team 2 score</th>
+          <th>location</th>
+          <th>winner</th>
+          <th>game type</th>
+        </tr>
+       </thead>
+       <tbody>
+          {% for match in matches %}
+          <tr>
+            <td>{{match.matchID}}</td>
+            <td>{{match.team1}}</td>
+            <td>{{match.team2}}</td>
+            <td>{{match.team1Score}}</td>
+            <td>{{match.team2Score}}</td>
+            <td>{{match.location}}</td>
+            <td>{{match.winner}}</td>
+            <td>{{match.gametype}}</td>
+          </tr>
+          {% endfor %}
+       </tbody>
+     </table>
+    </div>
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+  
+  function myFunction() {
+     // Declare variables 
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    td2 = tr[i].getElementsByTagName("td")[2];
+    td3 = tr[i].getElementsByTagName("td")[3];
+    td4 = tr[i].getElementsByTagName("td")[4];
+    td5 = tr[i].getElementsByTagName("td")[5];
+    td6 = tr[i].getElementsByTagName("td")[6];
+    td7 = tr[i].getElementsByTagName("td")[7];
+
+    if (td) {
+      if ((td.innerHTML.toUpperCase().indexOf(filter) > -1) || 
+      (td1.innerHTML.toUpperCase().indexOf(filter) > -1) ||
+      (td2.innerHTML.toUpperCase().indexOf(filter) > -1) ||
+      (td3.innerHTML.toUpperCase().indexOf(filter) > -1) ||
+      (td4.innerHTML.toUpperCase().indexOf(filter) > -1) ||
+      (td5.innerHTML.toUpperCase().indexOf(filter) > -1) ||
+      (td6.innerHTML.toUpperCase().indexOf(filter) > -1) ||
+      (td7.innerHTML.toUpperCase().indexOf(filter) > -1)) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+  }
+
+  </script>
+</html>
+{% endautoescape %}

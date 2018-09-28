@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <!-- [START css] -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- [END css] -->
+    <style>
+    .padding10 {
+        padding: 10px
+    }
+    </style>
+  </head>
+  <body>
+        <div class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">Knowlarity TT/Foosball Leaderboard</a>
+                      </div>
+                      <ul class="nav navbar-nav">
+                          <li class="active"><a href="/">Home</a></li>
+                          <li><a href="{{ createTeamUrl|safe }}">Create Team</a></li>
+                          <li><a href="{{ recordMatchScoresUrl|safe }}">Record Match Scores</a></li>
+                        </ul>
+                </div>
+            </div>
+    <div class="container">
+            <form action="/recordMatchScores" method="POST">
+                <div class="form-group">
+
+                    <div class="form-inline padding10">
+                    <label for="sel1">Team 1 (select one):</label>
+                        <select name="team1name" class="form-control" id="sel1">
+                                {% for team in teams %}
+                                <option>{{team.teamID}}</option>
+                                {% endfor %}
+                        </select>
+
+                    <label for="team1score">Score</label>
+                    <input type="text" name="team1score" class="form-control" id="team1score">
+                    </div>
+                    <div class="padding10"></div>
+                    <div class="form-inline padding10">
+                        <label for="sel2">Team 2 (select one):</label>
+                        <select name="team2name" class="form-control" id="sel2">
+                                {% for team in teams %}
+                                <option>{{team.teamID}}</option>
+                                {% endfor %}
+                        </select>
+                        <label for="team2score">Score</label>
+                        <input type="text" name="team2score" class="form-control" id="team2score">
+                    </div>
+
+
+                    <div class="padding10"></div>
+
+                    <div class="form-inline padding10">
+
+                    <label for="location">Location</label>
+                    <input type="text" name="location" class="form-control" id="location">
+                            <label for="gtype">Game type (select one):</label>
+                            <select name="gametype" class="form-control" id="gtype">
+                                    <option>Table Tennis</option>
+                                    <option>Foosball</option>
+                            </select>
+                    </div>
+
+                    <div class="padding10"></div>
+
+
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+              </form>
+    </div>
+  </body>
+</html>
+{% endautoescape %}
