@@ -42,10 +42,43 @@ class MainPage(webapp2.RequestHandler):
         query = Team.query().order(-Team.totalScore)
         query = query.fetch()
         print "Query:"+str(query)
+        print "length:"+str(len(query))
+        # assign indexes/ranks to the teams
+        iRank = 1
+        loopLength = len(query)-2
+        i = 0
+        teams = []
+        for q in query:
+            q.rank = lambda: None
+            setattr(q,"rank",0)
+        while i <= loopLength and iRank<=10:
+            print "i:"+str(i)
+            print "setting rank of team "+ str(query[i].teamID) + " as rank " + str(iRank)
+            query[i].rank = lambda: None
+            setattr(query[i],"rank",iRank)
+            teams.append(query[i])
+            if query[i].totalScore != query[i+1].totalScore:
+                iRank = iRank+1
+            i = i+1
+        print "outside loop"
+        queryLength = len(query)
+        if query[queryLength-1].totalScore == query[queryLength-2].totalScore:
+            print "setting rank of team "+ str(query[queryLength-1].teamID) + " as rank " + str(int(getattr(query[queryLength-2],"rank")))
+            previousRank = getattr(query[queryLength-2],"rank")
+            setattr(query[queryLength-1],"rank",int(previousRank,"rank"))
+            teams.append(query[queryLength-1])
+        else:
+            print "setting rank of team "+ str(query[queryLength-1].teamID) + " as rank " + str(int(getattr(query[queryLength-2],"rank"))+1)
+            previousRank = getattr(query[queryLength-2],"rank")
+            if(previousRank!=10):
+                setattr(query[queryLength-1],"rank",int(getattr(query[queryLength-2],"rank"))+1)
+                teams.append(query[queryLength-1])
+
+        # assign indexes/ranks to the teams
         template_values = {
           'createTeamUrl': '/createTeam',
           'recordMatchScoresUrl': '/recordMatchScores',
-          'teams': query
+          'teams': teams
 
         }
 

@@ -41,7 +41,7 @@
        <tbody>
           {% for team in teams %}
           <tr id="{{team.teamID}}" onclick="showDetail(this)">
-            <td>{{loop.index}}</td>
+            <td>{{team.rank}}</td>
             <td>{{team.teamID}}</td>
             <td>{{team.Player1}}</td>
             <td>{{team.Player2}}</td>
